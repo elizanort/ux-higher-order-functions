@@ -58,8 +58,27 @@ let products = [
 let chosenDepartment = "";
 
 function renderProducts() {
-    let html = ""; 
+    let html = "";
     
+    html = products.filter(function(item) {
+        return item.quantity > 0;
+    }).filter(function(item){
+        return (chosenDepartment) ? item.department === chosenDepartment : true;
+    }).map(function(item){
+        return `
+        <li>
+            <h2>${item.name}</h2>
+            <p>${item.price}</p>
+        </li>
+        `
+    }).reduce(function(text, item){
+        return text + item;
+    })
+
+    let element = document.getElementsByClassName(".productList");
+
+    element.innerHTML = html;
+
     // Your code here!
     /*
     using the product array
@@ -75,7 +94,7 @@ function renderProducts() {
     First, do not show out of stock items! If the quantity is zero then
     do not display the item.
 
-    Secondly, you ahve to apply the filter.  
+    Secondly, you have to apply the filter.  
     The Buttons are already wired up, so when you click a button it will 
     set chosenDepartment.  If the item's department matches the 
     chosenDepartment, then display it.
@@ -90,24 +109,7 @@ function renderProducts() {
     */
 
 
-    html = products.filter(function (product) {
-        return product.quantity > 0;
-    }).filter(function (product) {
-        return (chosenDepartment) ? product.department === chosenDepartment : true
-    }).map(function (product) {
-        return `
-            <li>
-                <h3>${product.name}</h3>
-                <div>Price: $${product.price}</div>
-            </li>
-            `
-    }).reduce(function (content, item) {
-        return content + item;
-    });
 
-    let elem = document.getElementById("productList");
-    elem.innerHTML = html;
-}
 
 window.onload = () => {
     renderProducts(products);
